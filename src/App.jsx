@@ -2,44 +2,31 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 const SKILLS = {
-  Backend: ['Node.js', 'Express.js', 'PHP', 'REST API', 'JWT Auth', 'Nodemailer', 'bcryptjs', 'express-rate-limit'],
-  Frontend: ['React.js', 'Redux Toolkit', 'TailwindCSS', 'HTML', 'CSS', 'JavaScript', 'Axios', 'React Router DOM'],
+  Languages: ['JavaScript', 'TypeScript', 'Python', 'C', 'C++', 'PHP'],
+  Frontend: ['React.js', 'Redux Toolkit', 'Framer Motion', 'Vite', 'TailwindCSS', 'HTML5', 'CSS3'],
+  Backend: ['Node.js', 'Express.js', 'REST API Design', 'JWT', 'Passport.js', 'Socket.IO', 'RBAC'],
   Database: ['MongoDB', 'MongoDB Atlas', 'Mongoose', 'MySQL'],
-  Tools: ['Git', 'GitHub', 'Linux', 'Postman', 'VS Code', 'Vite'],
-  Languages: ['C', 'C++', 'Python'],
+  'Cloud & Tools': ['Cloudinary', 'Razorpay', 'Vercel', 'Git', 'GitHub', 'Postman', 'VS Code', 'Linux'],
 }
 
 const PROJECTS = [
   {
-    title: 'Bingo — Food Delivery App',
-    tech: ['Node.js', 'Express.js', 'MongoDB Atlas', 'React.js', 'Redux Toolkit', 'TailwindCSS', 'JWT', 'Nodemailer', 'bcryptjs'],
+    title: 'BiteRush — Full Stack Food Delivery Platform',
+    tech: ['React.js', 'TypeScript', 'Redux Toolkit', 'Node.js', 'Express.js v5', 'MongoDB', 'Razorpay', 'Cloudinary'],
     description:
-      'Production-grade MERN food delivery platform with a 3-role system (Customer · Owner · Delivery Boy). Features OTP-based password reset via email, JWT + httpOnly cookie auth, role-based middleware, Redux Toolkit state management, and REST APIs for shops, menu items, cart, and orders. Cart total calculated on-the-fly — no redundant DB storage. Built with MVC architecture.',
+      'Production-grade full-stack food delivery platform with 3 user roles (Customer, Restaurant Owner, Delivery Partner), 8 route modules, and 30+ REST API endpoints. Features Google OAuth 2.0, JWT authentication, OTP-based forgot-password via Nodemailer, Razorpay payments with HMAC-SHA256 verification, and real-time order tracking via Socket.IO.',
     highlights: [
-      '7 auth routes including OTP forgot-password flow',
-      '3-role RBAC: Customer, Shop Owner, Delivery Boy',
-      'JWT + httpOnly cookies for secure, stateless auth',
-      'Cart total computed on-the-fly (no redundant storage)',
-      'Coming: Razorpay · Socket.io · Live map tracking',
-    ],
-    status: 'dev',
-    statusLabel: 'In Development',
-    github: 'https://github.com/MEGHRAJPARASHAR/FoodDeliveryApp',
-  },
-  {
-    title: 'Coffee E-Commerce',
-    tech: ['React.js', 'Vite', 'Firebase'],
-    description:
-      'Responsive e-commerce frontend for a coffee brand. Integrated Firebase for user authentication and real-time data storage. Deployed live with full Firebase Auth flow; Razorpay payment integration planned.',
-    highlights: [
-      'Live client deployment',
-      'Firebase Auth + real-time DB',
-      'Component-based React architecture',
+      '3 user roles: Customer, Restaurant Owner, Delivery Partner',
+      '30+ REST API endpoints across 8 route modules (MVC)',
+      'Google OAuth 2.0 + JWT auth + OTP forgot-password flow',
+      'Razorpay payment gateway with server-side signature verification',
+      'Real-time order tracking via Socket.IO room-based architecture',
+      '6 Mongoose schemas with Cloudinary image uploads via Multer',
     ],
     status: 'live',
     statusLabel: 'Live',
-    live: 'https://react-coffe-website.vercel.app/',
-    github: 'https://github.com/MEGHRAJPARASHAR',
+    live: 'https://bite-rush-delta.vercel.app/',
+    github: 'https://github.com/MEGHRAJPARASHAR/BiteRush-',
   },
   {
     title: 'CS Quiz Platform',
@@ -53,22 +40,8 @@ const PROJECTS = [
     ],
     status: 'done',
     statusLabel: 'Completed',
+    live: 'https://meghrajparashar.github.io/quiz',
     github: 'https://github.com/MEGHRAJPARASHAR/quiz',
-  },
-  {
-    title: 'Todo List App',
-    tech: ['React.js', 'JavaScript', 'CSS'],
-    description:
-      'A clean, responsive task management app built with React. Supports adding, completing, and deleting tasks with a minimal UI — deployed live on GitHub Pages.',
-    highlights: [
-      'Add, complete, and delete tasks',
-      'React component-based architecture',
-      'Deployed on GitHub Pages',
-    ],
-    status: 'live',
-    statusLabel: 'Live',
-    live: 'https://meghrajparashar.github.io/TodoList_Host/',
-    github: 'https://github.com/MEGHRAJPARASHAR/TodoList_Host',
   },
 ]
 
@@ -119,7 +92,7 @@ function Hero() {
       <div className="hero-left">
         <p className="hero-intro">Hi, my name is</p>
         <h1 className="hero-name">Meghraj<br />Parashar.</h1>
-        <h2 className="hero-tagline">I build things for the web.</h2>
+        <h2 className="hero-tagline">Full Stack Developer — MERN stack, real-time apps &amp; payment integrations.</h2>
         <p className="hero-bio">
           BCA Graduate (2026) from JB Knowledge Park, MDU University & Master Diploma
           holder in Software Engineering from Arth Institute — based in New Delhi, India.
@@ -134,9 +107,9 @@ function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary">
-            Say Hello on Gmail 
-            </a>        
-            </div>
+            Say Hello on Gmail
+          </a>
+        </div>
         <div className="hero-social">
           <a href="https://github.com/MEGHRAJPARASHAR" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -166,19 +139,19 @@ function Hero() {
             <span className="code-filename">meghraj.js</span>
           </div>
           <pre className="code-body"><code>
-<span className="c-keyword">const</span> <span className="c-var">developer</span> <span className="c-op">=</span> {'{'}
-  <span className="c-prop">name</span><span className="c-op">:</span> <span className="c-str">"Meghraj Parashar"</span><span className="c-op">,</span>
-  <span className="c-prop">role</span><span className="c-op">:</span> <span className="c-str">"Full Stack Dev"</span><span className="c-op">,</span>
-  <span className="c-prop">focus</span><span className="c-op">:</span> <span className="c-str">"Backend"</span><span className="c-op">,</span>
-  <span className="c-prop">stack</span><span className="c-op">:</span> [
-    <span className="c-str">"Node.js"</span><span className="c-op">,</span>
-    <span className="c-str">"Express"</span><span className="c-op">,</span>
-    <span className="c-str">"MongoDB"</span><span className="c-op">,</span>
-    <span className="c-str">"React"</span>
-  ]<span className="c-op">,</span>
-  <span className="c-prop">building</span><span className="c-op">:</span> <span className="c-str">"Bingo App"</span><span className="c-op">,</span>
-  <span className="c-prop">openTo</span><span className="c-op">:</span> <span className="c-str">"opportunities"</span>
-{'}'}<span className="c-op">;</span>
+            <span className="c-keyword">const</span> <span className="c-var">developer</span> <span className="c-op">=</span> {'{'}
+            <span className="c-prop">name</span><span className="c-op">:</span> <span className="c-str">"Meghraj Parashar"</span><span className="c-op">,</span>
+            <span className="c-prop">role</span><span className="c-op">:</span> <span className="c-str">"Full Stack Dev"</span><span className="c-op">,</span>
+            <span className="c-prop">focus</span><span className="c-op">:</span> <span className="c-str">"Backend"</span><span className="c-op">,</span>
+            <span className="c-prop">stack</span><span className="c-op">:</span> [
+            <span className="c-str">"Node.js"</span><span className="c-op">,</span>
+            <span className="c-str">"Express"</span><span className="c-op">,</span>
+            <span className="c-str">"MongoDB"</span><span className="c-op">,</span>
+            <span className="c-str">"React"</span>
+            ]<span className="c-op">,</span>
+            <span className="c-prop">building</span><span className="c-op">:</span> <span className="c-str">"BiteRush"</span><span className="c-op">,</span>
+            <span className="c-prop">openTo</span><span className="c-op">:</span> <span className="c-str">"opportunities"</span>
+            {'}'}<span className="c-op">;</span>
           </code></pre>
         </div>
       </div>
@@ -208,10 +181,10 @@ function About() {
           <p>
             My passion is backend development — designing clean REST APIs, building secure
             auth systems with JWT, and structuring MongoDB schemas that scale. I've shipped
-            real features in a production web app during my internship, and I'm currently
-            building <span className="hl">Bingo</span>, a full-stack Food Delivery App with a 3-role
+            real features in a production web app during my internship, and I built and deployed
+            <span className="hl">BiteRush</span>, a production-grade food delivery platform with a 3-role
             system (Customer · Owner · Delivery Boy), OTP-based email auth, Redux Toolkit
-            state management, and real-time order tracking (coming soon).
+            state management, and real-time order tracking.
           </p>
           <p>
             Outside of code, I'm grinding DSA on LeetCode (Striver's A2Z sheet in JavaScript),
@@ -241,6 +214,11 @@ function About() {
                 school: 'JB Knowledge Park, MDU University',
               },
               {
+                year: '2021 – 2023',
+                degree: 'Senior Secondary (XII) — Science Stream',
+                school: 'CBSE Board · 85%',
+              },
+              {
                 year: '2024',
                 degree: 'Master Diploma — Software Engineering',
                 school: 'Arth Institute',
@@ -262,9 +240,9 @@ function About() {
           </div>
 
           <div className="currently-box">
-            <h4 className="currently-label">Currently Building</h4>
+            <h4 className="currently-label">Latest Project</h4>
             <p className="currently-text">
-              Bingo — MERN food delivery app with 3-role RBAC, Redux Toolkit, real-time order tracking via Socket.io, and Razorpay payments.
+              BiteRush — Production-grade food delivery platform with 3 user roles, Razorpay payments, real-time Socket.IO order tracking, and Google OAuth. Built with React 19 + TypeScript + Node.js, deployed on Vercel.
             </p>
           </div>
         </div>
@@ -289,10 +267,11 @@ function Experience() {
           <span className="exp-date">Jun – Aug 2024</span>
         </div>
         <ul className="exp-points">
-          <li>Built RESTful APIs using Node.js and Express.js for production web application features</li>
+          <li>Built and documented 8+ RESTful API endpoints using Node.js and Express.js for a production web application</li>
           <li>Designed MongoDB schemas and optimized queries, improving average API response time by ~20%</li>
-          <li>Implemented JWT authentication and role-based access control (RBAC) for secure user management</li>
+          <li>Implemented JWT authentication and role-based access control (RBAC) for secure multi-user management</li>
           <li>Collaborated with a 3-member team using Git for version control; deployed prototype to Vercel</li>
+          <li>Participated in daily standups and code reviews following Agile development methodology</li>
         </ul>
         <div className="exp-tech">
           {['Node.js', 'Express.js', 'MongoDB', 'JWT', 'Git', 'Vercel'].map(t => (
@@ -360,17 +339,17 @@ function Contact() {
         target="_blank"
         rel="noopener noreferrer"
         className="btn-primary">
-        Say Hello on Gmail 
-        </a>
+        Say Hello on Gmail
+      </a>
       <div className="contact-links">
-       <div className='btn-secondary'> <a href="https://github.com/MEGHRAJPARASHAR" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+        <div className='btn-secondary'> <a href="https://github.com/MEGHRAJPARASHAR" target="_blank" rel="noopener noreferrer">GitHub</a></div>
         <span className="dot-sep">·</span>
         <div className='btn-secondary'>
-        <a href="https://linkedin.com/in/meghraj-parashar" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://linkedin.com/in/meghraj-parashar" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
         <span className="dot-sep">·</span>
         <div className='btn-secondary'>
-        <a href="tel:+918595988011">+91 85959 88011</a>
+          <a href="tel:+918595988011">+91 85959 88011</a>
         </div>
       </div>
     </section>
