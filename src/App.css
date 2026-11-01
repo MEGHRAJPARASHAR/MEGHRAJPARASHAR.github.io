@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
 }
 
-.app { overflow-x: hidden; }
+.app { overflow-x: hidden; min-height: 100vh; }
 
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -47,8 +47,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 /* ─── Utility ───────────────────────────────────────────────── */
 .hl { color: var(--accent); }
-
-.app { min-height: 100vh; }
 
 main {
   max-width: 1000px;
@@ -200,10 +198,11 @@ main {
 }
 .hero-tagline {
   font-family: var(--fh);
-  font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+  font-size: clamp(1.2rem, 2.8vw, 1.8rem);
   font-weight: 700;
   color: var(--text2);
   margin-bottom: 24px;
+  min-height: 2.4em;
   animation: fadeUp .6s .3s both;
 }
 .hero-bio {
@@ -232,6 +231,16 @@ main {
   display: flex;
 }
 .hero-social a:hover { color: var(--accent); transform: translateY(-3px); }
+
+/* ─── Typing Cursor ──────────────────────────────────────────── */
+.typing-cursor {
+  font-weight: 400;
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
 
 /* ─── Code Window ────────────────────────────────────────────── */
 .hero-right {
@@ -307,6 +316,44 @@ main {
   animation: scrollPulse 2s ease-in-out infinite;
 }
 
+/* ─── Stats Bar ──────────────────────────────────────────────── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 40px 0;
+}
+.stat-item {
+  text-align: center;
+  padding: 28px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color .3s, transform .3s;
+}
+.stat-item:hover {
+  border-color: rgba(100,255,218,.3);
+  transform: translateY(-4px);
+}
+.stat-num {
+  display: block;
+  font-family: var(--fh);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-family: var(--fm);
+  font-size: .72rem;
+  color: var(--text2);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
 /* ─── Buttons ────────────────────────────────────────────────── */
 .btn-primary {
   display: inline-block;
@@ -360,7 +407,6 @@ main {
   flex-direction: column;
   gap: 16px;
 }
-.skill-group {}
 .skill-cat {
   font-family: var(--fm);
   font-size: .72rem;
@@ -381,7 +427,6 @@ main {
 }
 .skill-pill:hover { color: var(--accent); border-color: var(--accent); }
 
-.about-edu {}
 .edu-heading {
   font-family: var(--fh);
   font-size: 1rem;
@@ -399,7 +444,7 @@ main {
   color: var(--accent);
   white-space: nowrap;
   padding-top: 3px;
-  min-width: 80px;
+  min-width: 100px;
 }
 .edu-degree {
   font-size: .9rem;
@@ -411,26 +456,85 @@ main {
   font-size: .8rem;
   color: var(--text2);
 }
+.edu-score {
+  font-family: var(--fm);
+  font-size: .72rem;
+  color: var(--accent);
+  margin-top: 2px;
+}
 
-/* ─── Experience ─────────────────────────────────────────────── */
-.exp-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 36px;
-  transition: border-color .3s, box-shadow .3s;
+/* ─── Currently Building box ─────────────────────────────────── */
+.currently-box {
+  margin-top: 28px;
+  padding: 16px 20px;
+  background: rgba(100,255,218,.04);
+  border: 1px solid rgba(100,255,218,.15);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
 }
-.exp-card:hover {
-  border-color: rgba(100,255,218,.3);
-  box-shadow: 0 8px 40px rgba(0,0,0,.3);
+.currently-label {
+  font-family: var(--fm);
+  font-size: .7rem;
+  color: var(--accent);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
+.currently-text {
+  font-size: .82rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ─── Experience — Tabbed Layout ─────────────────────────────── */
+.exp-container {
+  display: flex;
+  gap: 0;
+  min-height: 400px;
+}
+
+.exp-tabs {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.exp-tab {
+  font-family: var(--fm);
+  font-size: .82rem;
+  color: var(--text2);
+  padding: 14px 24px;
+  text-align: left;
+  white-space: nowrap;
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+  transition: all .25s ease;
+  background: none;
+}
+.exp-tab:hover {
+  color: var(--accent);
+  background: rgba(100,255,218,.05);
+}
+.exp-tab.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(100,255,218,.07);
+}
+
+.exp-panel {
+  flex: 1;
+  padding: 8px 0 8px 36px;
+}
+
 .exp-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 .exp-role {
   font-family: var(--fh);
@@ -439,9 +543,13 @@ main {
   color: var(--text);
   margin-bottom: 4px;
 }
-.exp-company {
-  font-size: .85rem;
+.exp-at {
   color: var(--accent);
+  font-weight: 600;
+}
+.exp-location {
+  font-size: .82rem;
+  color: var(--text2);
 }
 .exp-date {
   font-family: var(--fm);
@@ -450,17 +558,42 @@ main {
   white-space: nowrap;
   padding-top: 4px;
 }
+
+/* ─── Sub-Projects (within Logistics24x7) ────────────────────── */
+.sub-project {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.sub-project:last-child {
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+.sub-project-title {
+  font-family: var(--fb);
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.sub-arrow {
+  color: var(--accent);
+  margin-right: 6px;
+}
+
 .exp-points {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .exp-points li {
-  font-size: .9rem;
+  font-size: .88rem;
   color: var(--text2);
   padding-left: 20px;
   position: relative;
+  line-height: 1.7;
 }
 .exp-points li::before {
   content: '▹';
@@ -468,6 +601,7 @@ main {
   left: 0;
   color: var(--accent);
 }
+
 .exp-tech { display: flex; flex-wrap: wrap; gap: 8px; }
 .tech-chip {
   font-family: var(--fm);
@@ -541,6 +675,34 @@ main {
 }
 .proj-tech { display: flex; flex-wrap: wrap; gap: 8px; }
 
+/* ─── Project highlights list ────────────────────────────────── */
+.proj-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.proj-highlights li {
+  font-size: .78rem;
+  color: var(--text2);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.proj-highlights li::before {
+  content: '▹';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: .7rem;
+}
+
+/* ─── Featured project card ──────────────────────────────────── */
+.proj-featured {
+  border-color: rgba(100,255,218,.2);
+  background: linear-gradient(135deg, var(--bg2) 0%, rgba(100,255,218,.03) 100%);
+}
+
 /* ─── Contact ────────────────────────────────────────────────── */
 .contact-section {
   text-align: center;
@@ -594,57 +756,6 @@ main {
   color: var(--text2);
 }
 
-/* ─── Currently Building box ─────────────────────────────────── */
-.currently-box {
-  margin-top: 28px;
-  padding: 16px 20px;
-  background: rgba(100,255,218,.04);
-  border: 1px solid rgba(100,255,218,.15);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-}
-.currently-label {
-  font-family: var(--fm);
-  font-size: .7rem;
-  color: var(--accent);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.currently-text {
-  font-size: .82rem;
-  color: var(--text2);
-  line-height: 1.7;
-}
-
-/* ─── Project highlights list ────────────────────────────────── */
-.proj-highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-.proj-highlights li {
-  font-size: .78rem;
-  color: var(--text2);
-  padding-left: 16px;
-  position: relative;
-  line-height: 1.5;
-}
-.proj-highlights li::before {
-  content: '▹';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-size: .7rem;
-}
-
-/* ─── Featured project card ──────────────────────────────────── */
-.proj-featured {
-  border-color: rgba(100,255,218,.2);
-  background: linear-gradient(135deg, var(--bg2) 0%, rgba(100,255,218,.03) 100%);
-}
-
 /* ─── Animations ─────────────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -656,6 +767,8 @@ main {
 }
 
 /* ─── Responsive ─────────────────────────────────────────────── */
+
+/* ── Tablet ── */
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -670,8 +783,42 @@ main {
     font-size: .75rem;
     padding: 16px 18px;
   }
+
+  /* Stats — 2 columns on tablet */
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 24px 24px 0;
+  }
+
+  /* Experience tabs go horizontal */
+  .exp-container {
+    flex-direction: column;
+  }
+  .exp-tabs {
+    flex-direction: row;
+    border-left: none;
+    border-bottom: 2px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .exp-tab {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    margin-left: 0;
+    margin-bottom: -2px;
+    padding: 12px 20px;
+  }
+  .exp-tab.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent);
+  }
+  .exp-panel {
+    padding: 24px 0 0;
+  }
 }
 
+/* ── Mobile ── */
 @media (max-width: 700px) {
   main { padding: 0 20px; }
   .navbar { padding: 0 20px; }
@@ -706,12 +853,12 @@ main {
     gap: 28px;
   }
   .hero-name { font-size: clamp(2rem, 10vw, 2.8rem); }
-  .hero-tagline { font-size: clamp(1.1rem, 5vw, 1.5rem); }
+  .hero-tagline { font-size: clamp(1rem, 4.5vw, 1.3rem); min-height: 2em; }
   .hero-bio { font-size: .88rem; }
   .hero-actions { gap: 12px; }
 
-  /* Code window — prevent overflow */
-  .code-window { width: 100%;display: none; overflow: hidden; }
+  /* Code window — hide on mobile */
+  .code-window { width: 100%; display: none; overflow: hidden; }
   .code-body {
     font-size: .72rem;
     padding: 14px 16px;
@@ -719,12 +866,29 @@ main {
     -webkit-overflow-scrolling: touch;
   }
 
-  .exp-card { padding: 20px; }
+  /* Stats — 2 columns, smaller */
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 20px 20px 0;
+  }
+  .stat-item { padding: 20px 12px; }
+  .stat-num { font-size: 1.5rem; }
+  .stat-label { font-size: .65rem; }
+
+  /* Experience mobile */
   .exp-top { flex-direction: column; }
+  .exp-role { font-size: 1rem; }
+  .sub-project-title { font-size: .82rem; }
+  .exp-points li { font-size: .82rem; }
 
   .contact-section { padding: 70px 0 90px; }
   .contact-links { flex-wrap: wrap; gap: 10px; }
 
   .sec-heading { font-size: 1.3rem; }
   .sec-line { max-width: 120px; }
+
+  /* Education on mobile */
+  .edu-item { flex-direction: column; gap: 4px; }
+  .edu-year { min-width: auto; }
 }

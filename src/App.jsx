@@ -1,49 +1,181 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import './App.css'
 
-const SKILLS = {
-  Languages: ['JavaScript', 'TypeScript', 'Python', 'C', 'C++', 'PHP'],
-  Frontend: ['React.js', 'Redux Toolkit', 'Framer Motion', 'Vite', 'TailwindCSS', 'HTML5', 'CSS3'],
-  Backend: ['Node.js', 'Express.js', 'REST API Design', 'JWT', 'Passport.js', 'Socket.IO', 'RBAC'],
-  Database: ['MongoDB', 'MongoDB Atlas', 'Mongoose', 'MySQL'],
-  'Cloud & Tools': ['Cloudinary', 'Razorpay', 'Vercel', 'Git', 'GitHub', 'Postman', 'VS Code', 'Linux'],
+gsap.registerPlugin(ScrollTrigger)
+
+/* ─────────────────────────────────────────────────────────────
+   Typing Effect Component (custom, React 18 StrictMode safe)
+   ───────────────────────────────────────────────────────────── */
+function TypingText({ texts, speed = 80, deleteSpeed = 40, pauseTime = 2000 }) {
+  const [display, setDisplay] = useState('')
+  const state = useRef({ textIdx: 0, charIdx: 0, deleting: false, paused: false })
+
+  useEffect(() => {
+    const s = state.current
+    const current = texts[s.textIdx]
+
+    if (s.paused) {
+      const t = setTimeout(() => {
+        s.paused = false
+        s.deleting = true
+        setDisplay(d => d) // trigger re-render
+      }, pauseTime)
+      return () => clearTimeout(t)
+    }
+
+    const timeout = s.deleting ? deleteSpeed : speed
+    const t = setTimeout(() => {
+      if (!s.deleting) {
+        s.charIdx++
+        setDisplay(current.slice(0, s.charIdx))
+        if (s.charIdx === current.length) s.paused = true
+      } else {
+        s.charIdx--
+        setDisplay(current.slice(0, s.charIdx))
+        if (s.charIdx === 0) {
+          s.deleting = false
+          s.textIdx = (s.textIdx + 1) % texts.length
+        }
+      }
+    }, timeout)
+
+    return () => clearTimeout(t)
+  }, [display, texts, speed, deleteSpeed, pauseTime])
+
+  return <span>{display}<span className="typing-cursor">|</span></span>
 }
 
+/* ─────────────────────────────────────────────────────────────
+   DATA — Skills (from resume)
+   ───────────────────────────────────────────────────────────── */
+const SKILLS = {
+  'Languages & Core': ['JavaScript (ES6+)', 'TypeScript', 'PHP', 'SQL', 'HTML5', 'CSS3', 'Python'],
+  'Frontend & UI': ['React.js', 'Redux Toolkit', 'Tailwind CSS', 'Bootstrap 5', 'Vite', 'GSAP', 'PWA'],
+  'Backend & Databases': ['Node.js', 'Express.js', 'PHP (MVC)', 'REST APIs', 'MySQL', 'MongoDB', 'Firebase'],
+  'Security & QA': ['CSRF Protection', 'Bcrypt/Argon2id', 'CSP Nonces', 'RBAC', 'Playwright (E2E)', 'CDP'],
+  'SEO & DevTools': ['Schema.org JSON-LD', 'Technical SEO', 'Search Console', 'Git', 'GitHub', 'Postman', 'Linux'],
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DATA — Experience (from resume)
+   ───────────────────────────────────────────────────────────── */
+const EXPERIENCES = [
+  {
+    id: 'logistics24x7',
+    tabLabel: 'Logistics24x7',
+    company: 'Logistics24x7 India Pvt Ltd',
+    location: 'Okhla, New Delhi',
+    role: 'Web Developer Intern',
+    period: 'Sept 2026 – Present',
+    tech: ['PHP', 'MySQL', 'Tailwind CSS', 'Playwright'],
+    subProjects: [
+      {
+        title: 'Logistics24x7.com & GKSCPL — Full-Stack Redesign, Dual CMS & Auth Overhaul',
+        points: [
+          'Redesigned and deployed 30+ production pages across two freight forwarding platforms, building a standalone Tailwind CSS build pipeline that eliminated 200KB+ of CDN bloat and dynamic routing for international trade corridors.',
+          'Architected a reusable Dual CMS Engine combining a 6-module Admin CRUD Panel with Live Inline Editing (real-time DOM text updates via Fetch API with strict SQL table/column whitelist validation and CSRF protection).',
+          'Engineered automated recruitment and client inquiry pipelines using MySQL and PHPMailer (SSL SMTP) for instant candidate dossier routing, alongside an enterprise RBAC system with Bcrypt hashing and superadmin safety locks.',
+        ],
+      },
+      {
+        title: 'WebTechPrime — Solo Full-Stack PWA & 7-Module Admin Suite',
+        points: [
+          'Built and deployed an IT services Progressive Web App (PWA) from scratch with service worker caching and a custom inline-editing helper enabling real-time content updates across 78+ dynamic text nodes without page reloads.',
+          'Developed a 7-module Admin Panel featuring drag-to-reorder navigation, dynamic portfolio/service CRUD, and an IP-tracked Administrative Audit Log recording actor, target, IP address, and timestamp for every state change.',
+          'Hardened platform security with password_hash authentication, anti-CSRF tokens on all state-mutating forms, session regeneration on login, and automated server-side cleanup for orphaned media files.',
+        ],
+      },
+      {
+        title: 'JeevanJyoti Trust — Automated Playwright QA & Performance Optimization',
+        points: [
+          'Executed an automated Playwright E2E QA suite across 14 public and admin portals, uncovering and resolving 22+ critical/high defects including DOM modal ID collisions, silent multipart CV upload failures, and broken PHPMailer routing.',
+          'Refactored 3,170 lines of inline CSS into cached external stylesheets (71% payload reduction), migrated 5 legacy donation workflows to Bootstrap 5, and documented a 30-node dependency graph for safe refactoring.',
+        ],
+      },
+      {
+        title: 'Cross-Project Enterprise Technical SEO Engine (All 4 Websites)',
+        points: [
+          'Engineered a 3-tier dynamic meta cascade, cryptographic CSP nonces, interconnected Schema.org JSON-LD @graph schemas (6 entity types), and hardened robots.txt/sitemap.xml directives to optimize search crawl budget.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'arth',
+    tabLabel: 'Arth Institute',
+    company: 'Arth Institute',
+    location: 'New Delhi',
+    role: 'Software Development Intern',
+    period: 'Jun – Aug 2024',
+    tech: ['Node.js', 'Express.js', 'MongoDB', 'JWT'],
+    points: [
+      'Developed and documented 8+ RESTful API endpoints using Node.js and Express.js for a multi-user web platform.',
+      'Optimized MongoDB schemas and indexing strategies, reducing average API query execution time by 20%.',
+      'Implemented stateless JWT authentication and Role-Based Access Control (RBAC) middleware to secure protected routes.',
+    ],
+  },
+]
+
+/* ─────────────────────────────────────────────────────────────
+   DATA — Projects (from resume)
+   ───────────────────────────────────────────────────────────── */
 const PROJECTS = [
   {
-    title: 'BiteRush — Full Stack Food Delivery Platform',
-    tech: ['React.js', 'TypeScript', 'Redux Toolkit', 'Node.js', 'Express.js v5', 'MongoDB', 'Razorpay', 'Cloudinary'],
+    title: 'AttendTrack — Real-Time Attendance & GPS Tracker',
+    tech: ['React.js', 'Firebase', 'Leaflet.js', 'PWA'],
     description:
-      'Production-grade full-stack food delivery platform with 3 user roles (Customer, Restaurant Owner, Delivery Partner), 8 route modules, and 30+ REST API endpoints. Features Google OAuth 2.0, JWT authentication, OTP-based forgot-password via Nodemailer, Razorpay payments with HMAC-SHA256 verification, and real-time order tracking via Socket.IO.',
+      'Real-time workforce tracking PWA supporting Admin and Employee roles, featuring automated 2-minute background GPS sync and interactive live route visualization on Leaflet.js maps.',
     highlights: [
-      '3 user roles: Customer, Restaurant Owner, Delivery Partner',
-      '30+ REST API endpoints across 8 route modules (MVC)',
-      'Google OAuth 2.0 + JWT auth + OTP forgot-password flow',
-      'Razorpay payment gateway with server-side signature verification',
+      'RBAC using Firebase Auth secondary app instance pattern for seamless admin provisioning',
+      '6 real-time Firestore (onSnapshot) dashboards for live workforce monitoring',
+      '70% faster initial load via React lazy() code splitting',
+    ],
+    status: 'live',
+    statusLabel: 'Flagship',
+    github: 'https://github.com/MEGHRAJPARASHAR/AttendTrack',
+  },
+  {
+    title: 'BiteRush — Full Stack Food Delivery Platform',
+    tech: ['React.js', 'TypeScript', 'Redux Toolkit', 'Node.js', 'Express.js', 'MongoDB', 'Razorpay'],
+    description:
+      'Production-grade food delivery platform with 3 user roles (Customer, Restaurant Owner, Delivery Partner), 8 route modules, and 30+ REST API endpoints.',
+    highlights: [
+      'Google OAuth 2.0 + JWT auth + OTP forgot-password via Nodemailer',
+      'Razorpay payment gateway with server-side HMAC-SHA256 signature verification',
       'Real-time order tracking via Socket.IO room-based architecture',
-      '6 Mongoose schemas with Cloudinary image uploads via Multer',
     ],
     status: 'live',
     statusLabel: 'Live',
     live: 'https://bite-rush-delta.vercel.app/',
     github: 'https://github.com/MEGHRAJPARASHAR/BiteRush-',
   },
-  {
-    title: 'CS Quiz Platform',
-    tech: ['PHP', 'MySQL', 'HTML', 'CSS'],
-    description:
-      'Computer Science quiz platform supporting timed sessions from 5 to 60 minutes. Dynamic question rendering and score tracking using PHP sessions and MySQL — clean session-based architecture.',
-    highlights: [
-      'Flexible 5–60 min timed sessions',
-      'PHP session-based architecture',
-      'Dynamic question rendering',
-    ],
-    status: 'done',
-    statusLabel: 'Completed',
-    live: 'https://meghrajparashar.github.io/quiz',
-    github: 'https://github.com/MEGHRAJPARASHAR/quiz',
-  },
 ]
+
+/* ─────────────────────────────────────────────────────────────
+   DATA — Education (from resume)
+   ───────────────────────────────────────────────────────────── */
+const EDUCATION = [
+  { year: '2026 – Present', degree: 'Master of Computer Applications (MCA)', school: 'Jamia Hamdard, New Delhi', score: 'Enrolled' },
+  { year: '2023 – 2026', degree: 'Bachelor of Computer Applications (BCA)', school: 'JB Knowledge Park, MDU University', score: '85%' },
+  { year: '2022 – 2024', degree: 'PG Diploma in Software Engineering (NIELIT)', school: 'The Institute of Commerce & Vocational Studies, New Delhi', score: 'Grade A (79%)' },
+]
+
+/* ─────────────────────────────────────────────────────────────
+   DATA — Impact Stats (from resume numbers)
+   ───────────────────────────────────────────────────────────── */
+const STATS = [
+  { num: '30+', label: 'Production Pages' },
+  { num: '4', label: 'Live Websites' },
+  { num: '22+', label: 'Bugs Resolved' },
+  { num: '3,170', label: 'Lines Refactored' },
+]
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════════════════ */
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -92,22 +224,35 @@ function Hero() {
       <div className="hero-left">
         <p className="hero-intro">Hi, my name is</p>
         <h1 className="hero-name">Meghraj<br />Parashar.</h1>
-        <h2 className="hero-tagline">Full Stack Developer — MERN stack, real-time apps &amp; payment integrations.</h2>
+        <h2 className="hero-tagline">
+          <TypingText
+            texts={[
+              'Full Stack Web Developer.',
+              'Enterprise CMS Architect.',
+              'PHP & MERN Stack Builder.',
+              'Playwright QA Engineer.',
+              'Technical SEO Specialist.',
+            ]}
+            speed={70}
+            deleteSpeed={35}
+            pauseTime={1800}
+          />
+        </h2>
         <p className="hero-bio">
-          BCA Graduate (2026) from JB Knowledge Park, MDU University & Master Diploma
-          holder in Software Engineering from Arth Institute — based in New Delhi, India.
-          I specialize in building scalable backend systems and full-stack web
-          applications using the <span className="hl">MERN stack</span> — with a
-          strong focus on <span className="hl">REST APIs</span>, <span className="hl">MongoDB</span>,
-          and <span className="hl">JWT authentication</span>.
+          Currently shipping <span className="hl">30+ production pages</span> at{' '}
+          <span className="hl">Logistics24x7 India Pvt Ltd</span> — building enterprise
+          CMS architectures, automated Playwright QA suites, and cross-platform
+          technical SEO engines across 4 live freight forwarding websites.
         </p>
         <div className="hero-actions">
           <a href="#projects" className="btn-primary">View My Work</a>
-          <a href="https://mail.google.com/mail/?view=cm&to=meghrajparashar@gmail.com"
+          <a
+            href="https://mail.google.com/mail/?view=cm&to=meghrajparashar@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary">
-            Say Hello on Gmail
+            className="btn-primary"
+          >
+            Say Hello
           </a>
         </div>
         <div className="hero-social">
@@ -127,6 +272,11 @@ function Hero() {
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
             </svg>
           </a>
+          <a href="tel:+918595988011" aria-label="Phone">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </a>
         </div>
       </div>
 
@@ -140,17 +290,13 @@ function Hero() {
           </div>
           <pre className="code-body"><code>
             <span className="c-keyword">const</span> <span className="c-var">developer</span> <span className="c-op">=</span> {'{'}
-            <span className="c-prop">name</span><span className="c-op">:</span> <span className="c-str">"Meghraj Parashar"</span><span className="c-op">,</span>
-            <span className="c-prop">role</span><span className="c-op">:</span> <span className="c-str">"Full Stack Dev"</span><span className="c-op">,</span>
-            <span className="c-prop">focus</span><span className="c-op">:</span> <span className="c-str">"Backend"</span><span className="c-op">,</span>
-            <span className="c-prop">stack</span><span className="c-op">:</span> [
-            <span className="c-str">"Node.js"</span><span className="c-op">,</span>
-            <span className="c-str">"Express"</span><span className="c-op">,</span>
-            <span className="c-str">"MongoDB"</span><span className="c-op">,</span>
-            <span className="c-str">"React"</span>
-            ]<span className="c-op">,</span>
-            <span className="c-prop">building</span><span className="c-op">:</span> <span className="c-str">"BiteRush"</span><span className="c-op">,</span>
-            <span className="c-prop">openTo</span><span className="c-op">:</span> <span className="c-str">"opportunities"</span>
+            <span className="c-prop">  name</span><span className="c-op">:</span> <span className="c-str">"Meghraj Parashar"</span><span className="c-op">,</span>
+            <span className="c-prop">  role</span><span className="c-op">:</span> <span className="c-str">"Full Stack Dev"</span><span className="c-op">,</span>
+            <span className="c-prop">  at</span><span className="c-op">:</span> <span className="c-str">"Logistics24x7"</span><span className="c-op">,</span>
+            <span className="c-prop">  stack</span><span className="c-op">:</span> [<span className="c-str">"PHP"</span><span className="c-op">,</span> <span className="c-str">"React"</span><span className="c-op">,</span>
+            {'          '}<span className="c-str">"Node.js"</span><span className="c-op">,</span> <span className="c-str">"MySQL"</span>]<span className="c-op">,</span>
+            <span className="c-prop">  shipped</span><span className="c-op">:</span> <span className="c-str">"30+ pages"</span><span className="c-op">,</span>
+            <span className="c-prop">  openTo</span><span className="c-op">:</span> <span className="c-str">"opportunities"</span>
             {'}'}<span className="c-op">;</span>
           </code></pre>
         </div>
@@ -164,6 +310,19 @@ function Hero() {
   )
 }
 
+function StatsBar() {
+  return (
+    <section className="stats-bar">
+      {STATS.map(s => (
+        <div key={s.label} className="stat-item reveal">
+          <span className="stat-num">{s.num}</span>
+          <span className="stat-label">{s.label}</span>
+        </div>
+      ))}
+    </section>
+  )
+}
+
 function About() {
   return (
     <section id="about" className="section">
@@ -173,28 +332,28 @@ function About() {
       </h2>
       <div className="about-grid">
         <div className="about-text">
-          <p>
-            I'm a recent <span className="hl">BCA Graduate (2026)</span> from JB Knowledge Park,
-            MDU University and hold a <span className="hl">Master Diploma in Software Engineering</span> from
-            Arth Institute — based in New Delhi, India.
+          <p className="reveal">
+            I'm a <span className="hl">Full Stack Web Developer</span> currently working at{' '}
+            <span className="hl">Logistics24x7 India Pvt Ltd</span> in New Delhi, where I've
+            shipped 30+ production pages across 4 live freight forwarding platforms — building
+            everything from enterprise CMS architectures to automated Playwright QA suites.
           </p>
-          <p>
-            My passion is backend development — designing clean REST APIs, building secure
-            auth systems with JWT, and structuring MongoDB schemas that scale. I've shipped
-            real features in a production web app during my internship, and I built and deployed
-            <span className="hl">BiteRush</span>, a production-grade food delivery platform with a 3-role
-            system (Customer · Owner · Delivery Boy), OTP-based email auth, Redux Toolkit
-            state management, and real-time order tracking.
+          <p className="reveal">
+            My strength is bridging backend engineering with real-world business needs — designing
+            Dual CMS engines with live inline editing, engineering RBAC systems with Bcrypt hashing
+            and superadmin safety locks, and building cross-platform technical SEO engines with
+            interconnected <span className="hl">Schema.org JSON-LD @graph schemas</span>.
           </p>
-          <p>
-            Outside of code, I'm grinding DSA on LeetCode (Striver's A2Z sheet in JavaScript),
-            documenting my dev journey publicly on LinkedIn, and always looking for the next
-            interesting problem to solve.
+          <p className="reveal">
+            Beyond my internship, I've built <span className="hl">AttendTrack</span> — a real-time
+            GPS-based employee attendance PWA that got me my current job interview, and{' '}
+            <span className="hl">BiteRush</span> — a production-grade food delivery platform with
+            Razorpay payments and Socket.IO real-time order tracking.
           </p>
 
           <div className="skills-wrapper">
             {Object.entries(SKILLS).map(([cat, items]) => (
-              <div key={cat} className="skill-group">
+              <div key={cat} className="skill-group reveal">
                 <h4 className="skill-cat">{cat}</h4>
                 <div className="skill-tags">
                   {items.map(s => <span key={s} className="skill-pill">{s}</span>)}
@@ -207,42 +366,24 @@ function About() {
         <div className="about-edu">
           <h3 className="edu-heading">Education</h3>
           <div className="edu-list">
-            {[
-              {
-                year: '2023 – 2026',
-                degree: 'Bachelor of Computer Applications',
-                school: 'JB Knowledge Park, MDU University',
-              },
-              {
-                year: '2021 – 2023',
-                degree: 'Senior Secondary (XII) — Science Stream',
-                school: 'CBSE Board · 85%',
-              },
-              {
-                year: '2024',
-                degree: 'Master Diploma — Software Engineering',
-                school: 'Arth Institute',
-              },
-              {
-                year: '2024',
-                degree: 'Algorithms & Data Structures',
-                school: 'Udemy Certificate',
-              },
-            ].map(e => (
-              <div key={e.degree} className="edu-item">
+            {EDUCATION.map(e => (
+              <div key={e.degree} className="edu-item reveal">
                 <span className="edu-year">{e.year}</span>
                 <div>
                   <h4 className="edu-degree">{e.degree}</h4>
                   <p className="edu-school">{e.school}</p>
+                  {e.score && <p className="edu-score">{e.score}</p>}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="currently-box">
-            <h4 className="currently-label">Latest Project</h4>
+          <div className="currently-box reveal">
+            <h4 className="currently-label">Currently</h4>
             <p className="currently-text">
-              BiteRush — Production-grade food delivery platform with 3 user roles, Razorpay payments, real-time Socket.IO order tracking, and Google OAuth. Built with React 19 + TypeScript + Node.js, deployed on Vercel.
+              Shipping production code at Logistics24x7 · Pursuing MCA from Jamia Hamdard ·
+              Grinding DSA on LeetCode (Striver's A2Z sheet) · Building enterprise-grade
+              web platforms daily.
             </p>
           </div>
         </div>
@@ -252,31 +393,63 @@ function About() {
 }
 
 function Experience() {
+  const [activeTab, setActiveTab] = useState(0)
+  const exp = EXPERIENCES[activeTab]
+
   return (
     <section id="experience" className="section">
       <h2 className="sec-heading">
         <span className="sec-num">02.</span> Experience
         <span className="sec-line" />
       </h2>
-      <div className="exp-card">
-        <div className="exp-top">
-          <div>
-            <h3 className="exp-role">Software Development Intern</h3>
-            <p className="exp-company">Arth Institute &nbsp;·&nbsp; New Delhi</p>
-          </div>
-          <span className="exp-date">Jun – Aug 2024</span>
-        </div>
-        <ul className="exp-points">
-          <li>Built and documented 8+ RESTful API endpoints using Node.js and Express.js for a production web application</li>
-          <li>Designed MongoDB schemas and optimized queries, improving average API response time by ~20%</li>
-          <li>Implemented JWT authentication and role-based access control (RBAC) for secure multi-user management</li>
-          <li>Collaborated with a 3-member team using Git for version control; deployed prototype to Vercel</li>
-          <li>Participated in daily standups and code reviews following Agile development methodology</li>
-        </ul>
-        <div className="exp-tech">
-          {['Node.js', 'Express.js', 'MongoDB', 'JWT', 'Git', 'Vercel'].map(t => (
-            <span key={t} className="tech-chip">{t}</span>
+      <div className="exp-container">
+        <div className="exp-tabs" role="tablist">
+          {EXPERIENCES.map((e, i) => (
+            <button
+              key={e.id}
+              role="tab"
+              aria-selected={activeTab === i}
+              className={`exp-tab ${activeTab === i ? 'active' : ''}`}
+              onClick={() => setActiveTab(i)}
+            >
+              {e.tabLabel}
+            </button>
           ))}
+        </div>
+
+        <div className="exp-panel" role="tabpanel">
+          <div className="exp-top">
+            <div>
+              <h3 className="exp-role">
+                {exp.role} <span className="exp-at">@ {exp.company}</span>
+              </h3>
+              <p className="exp-location">{exp.location}</p>
+            </div>
+            <span className="exp-date">{exp.period}</span>
+          </div>
+
+          {/* Logistics24x7 — has sub-projects */}
+          {exp.subProjects && exp.subProjects.map((sub, i) => (
+            <div key={i} className="sub-project">
+              <h4 className="sub-project-title">
+                <span className="sub-arrow">▹</span> {sub.title}
+              </h4>
+              <ul className="exp-points">
+                {sub.points.map((p, j) => <li key={j}>{p}</li>)}
+              </ul>
+            </div>
+          ))}
+
+          {/* Arth — has simple points */}
+          {exp.points && (
+            <ul className="exp-points">
+              {exp.points.map((p, j) => <li key={j}>{p}</li>)}
+            </ul>
+          )}
+
+          <div className="exp-tech">
+            {exp.tech.map(t => <span key={t} className="tech-chip">{t}</span>)}
+          </div>
         </div>
       </div>
     </section>
@@ -292,7 +465,7 @@ function Projects() {
       </h2>
       <div className="projects-grid">
         {PROJECTS.map(p => (
-          <div key={p.title} className={`proj-card ${p.status === 'dev' ? 'proj-featured' : ''}`}>
+          <div key={p.title} className={`proj-card ${p.statusLabel === 'Flagship' ? 'proj-featured' : ''}`}>
             <div className="proj-top">
               <svg className="proj-folder" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
@@ -332,23 +505,28 @@ function Contact() {
       <p className="contact-eyebrow"><span className="sec-num">04.</span> What's Next?</p>
       <h2 className="contact-title">Get In Touch</h2>
       <p className="contact-body">
-        I'm currently looking for new opportunities — whether it's a full-time role,
-        internship, or a freelance project. My inbox is always open. Say hello!
+        I'm currently working at Logistics24x7 and always open to new opportunities —
+        whether it's a full-time role, an exciting project, or just a conversation about
+        web development. My inbox is always open!
       </p>
-      <a href="https://mail.google.com/mail/?view=cm&to=meghrajparashar@gmail.com"
+      <a
+        href="https://mail.google.com/mail/?view=cm&to=meghrajparashar@gmail.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="btn-primary">
+        className="btn-primary"
+      >
         Say Hello on Gmail
       </a>
       <div className="contact-links">
-        <div className='btn-secondary'> <a href="https://github.com/MEGHRAJPARASHAR" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+        <div className="btn-secondary">
+          <a href="https://github.com/MEGHRAJPARASHAR" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
         <span className="dot-sep">·</span>
-        <div className='btn-secondary'>
+        <div className="btn-secondary">
           <a href="https://linkedin.com/in/meghraj-parashar" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
         <span className="dot-sep">·</span>
-        <div className='btn-secondary'>
+        <div className="btn-secondary">
           <a href="tel:+918595988011">+91 85959 88011</a>
         </div>
       </div>
@@ -364,12 +542,95 @@ function Footer() {
   )
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   APP — Root component with GSAP ScrollTrigger animations
+   ═══════════════════════════════════════════════════════════════ */
 export default function App() {
+  const appRef = useRef(null)
+
+  useGSAP(() => {
+    /* ── Section headings slide in ── */
+    gsap.utils.toArray('.sec-heading').forEach(el => {
+      gsap.from(el, {
+        x: -40,
+        opacity: 0,
+        duration: 0.7,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%' },
+      })
+    })
+
+    /* ── Reveal elements fade up ── */
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.from(el, {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+      })
+    })
+
+    /* ── Skill pills stagger ── */
+    gsap.utils.toArray('.skill-group').forEach(group => {
+      const pills = group.querySelectorAll('.skill-pill')
+      gsap.from(pills, {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.3,
+        stagger: 0.04,
+        ease: 'back.out(1.7)',
+        scrollTrigger: { trigger: group, start: 'top 85%' },
+      })
+    })
+
+    /* ── Project cards stagger ── */
+    const cards = gsap.utils.toArray('.proj-card')
+    gsap.from(cards, {
+      y: 60,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.2,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.projects-grid', start: 'top 80%' },
+    })
+
+    /* ── Stats counter animation ── */
+    gsap.utils.toArray('.stat-item').forEach(el => {
+      gsap.from(el, {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 90%' },
+      })
+    })
+
+    /* ── Experience panel fade ── */
+    gsap.from('.exp-container', {
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.exp-container', start: 'top 80%' },
+    })
+
+    /* ── Contact section ── */
+    gsap.from('.contact-title', {
+      y: 30,
+      opacity: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.contact-section', start: 'top 75%' },
+    })
+  }, { scope: appRef })
+
   return (
-    <div className="app">
+    <div className="app" ref={appRef}>
       <Navbar />
       <main>
         <Hero />
+        <StatsBar />
         <About />
         <Experience />
         <Projects />

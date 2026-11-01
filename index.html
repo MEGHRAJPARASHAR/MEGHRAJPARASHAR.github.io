@@ -1,12 +1,446 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns# profile: https://ogp.me/ns/profile#">
   <head>
+    <!-- ════════════════════════════════════════════════════════════
+         TIER 1 — Critical Rendering Path & Core Meta
+         ════════════════════════════════════════════════════════════ -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My portfolio</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- ── Self-Referencing Canonical URL ─────────────────────── -->
+    <link rel="canonical" href="https://meghrajparashar.github.io/" />
+
+    <!-- ── Title (50-60 chars, primary keyword first) ─────────── -->
+    <title>Meghraj Parashar — Full Stack Web Developer | Delhi, India</title>
+
+    <!-- ════════════════════════════════════════════════════════════
+         TIER 2 — SEO Meta Cascade (On-Page Signals)
+         ════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Primary Meta Description (150-160 chars) ──────────── -->
+    <meta name="description" content="Meghraj Parashar — Full Stack Web Developer based in New Delhi. Building production PHP & MERN apps with enterprise CMS architectures, Playwright E2E QA, and technical SEO. Currently shipping 30+ pages at Logistics24x7." />
+
+    <!-- ── Keywords (supplementary signal for Bing/Yandex) ────── -->
+    <meta name="keywords" content="Meghraj Parashar, Full Stack Developer, Web Developer Delhi, MERN Stack, PHP Developer, React Developer, Node.js, Express.js, MongoDB, MySQL, Tailwind CSS, Portfolio, AttendTrack, Logistics24x7, Playwright, Technical SEO, PWA Developer, New Delhi India" />
+
+    <!-- ── Robots Directives (page-level control) ────────────── -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="bingbot" content="index, follow" />
+
+    <!-- ── Author & Geo Signals ──────────────────────────────── -->
+    <meta name="author" content="Meghraj Parashar" />
+    <meta name="geo.region" content="IN-DL" />
+    <meta name="geo.placename" content="New Delhi, India" />
+    <meta name="geo.position" content="28.5355;77.2753" />
+    <meta name="ICBM" content="28.5355, 77.2753" />
+
+    <!-- ── Content Classification ────────────────────────────── -->
+    <meta name="subject" content="Full Stack Web Development Portfolio" />
+    <meta name="topic" content="Web Development, Software Engineering" />
+    <meta name="classification" content="Technology, Software Development" />
+    <meta name="category" content="Portfolio" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+
+    <!-- ════════════════════════════════════════════════════════════
+         TIER 3 — Social Graph Protocol (Off-Page Sharing Signals)
+         ════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Open Graph (Facebook, LinkedIn, WhatsApp, Telegram) ── -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Meghraj Parashar — Full Stack Web Developer" />
+    <meta property="og:description" content="Building production PHP & MERN apps with enterprise CMS architectures, Playwright E2E QA, and technical SEO. 30+ production pages shipped at Logistics24x7." />
+    <meta property="og:url" content="https://meghrajparashar.github.io/" />
+    <meta property="og:site_name" content="Meghraj Parashar — Portfolio" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:image" content="https://meghrajparashar.github.io/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Meghraj Parashar — Full Stack Web Developer Portfolio" />
+    <!-- Profile-specific OG fields -->
+    <meta property="profile:first_name" content="Meghraj" />
+    <meta property="profile:last_name" content="Parashar" />
+    <meta property="profile:username" content="MEGHRAJPARASHAR" />
+
+    <!-- ── Twitter Card (X.com) ──────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Meghraj Parashar — Full Stack Web Developer" />
+    <meta name="twitter:description" content="Building production PHP & MERN apps with enterprise CMS architectures, Playwright E2E QA, and technical SEO. Currently at Logistics24x7, New Delhi." />
+    <meta name="twitter:image" content="https://meghrajparashar.github.io/og-image.png" />
+    <meta name="twitter:image:alt" content="Meghraj Parashar — Full Stack Web Developer Portfolio" />
+
+    <!-- ════════════════════════════════════════════════════════════
+         RESOURCE HINTS — Preconnect & DNS Prefetch
+         ════════════════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- ════════════════════════════════════════════════════════════
+         FAVICON & App Icons (Progressive Enhancement)
+         ════════════════════════════════════════════════════════════ -->
+    <!-- Generate these favicons and place in public/ folder -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#060a0f" />
+    <meta name="msapplication-TileColor" content="#060a0f" />
+
+    <!-- ════════════════════════════════════════════════════════════
+         STRUCTURED DATA — Enterprise JSON-LD @graph Schema
+         ═══════════════════════════════════════════════════════════
+         Interconnected @graph with 8 entity types:
+         1. WebSite        — site-level entity
+         2. ProfilePage    — the page itself
+         3. BreadcrumbList — navigation path
+         4. Person         — Meghraj (primary entity)
+         5. Organization   — Logistics24x7 (current employer)
+         6. Organization   — Arth Institute (past employer)
+         7. CreativeWork   — AttendTrack project
+         8. CreativeWork   — BiteRush project
+         All cross-referenced via @id URIs for entity resolution.
+         ════════════════════════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+
+        {
+          "@type": "WebSite",
+          "@id": "https://meghrajparashar.github.io/#website",
+          "url": "https://meghrajparashar.github.io/",
+          "name": "Meghraj Parashar — Portfolio",
+          "description": "Personal portfolio of Meghraj Parashar, a Full Stack Web Developer based in New Delhi, India.",
+          "publisher": { "@id": "https://meghrajparashar.github.io/#person" },
+          "inLanguage": "en-IN",
+          "copyrightHolder": { "@id": "https://meghrajparashar.github.io/#person" },
+          "copyrightYear": 2026
+        },
+
+        {
+          "@type": "ProfilePage",
+          "@id": "https://meghrajparashar.github.io/#profilepage",
+          "url": "https://meghrajparashar.github.io/",
+          "name": "Meghraj Parashar — Full Stack Web Developer",
+          "description": "Full Stack Web Developer building production PHP & MERN apps with enterprise CMS architectures, Playwright E2E QA, and technical SEO.",
+          "isPartOf": { "@id": "https://meghrajparashar.github.io/#website" },
+          "about": { "@id": "https://meghrajparashar.github.io/#person" },
+          "mainEntity": { "@id": "https://meghrajparashar.github.io/#person" },
+          "inLanguage": "en-IN",
+          "datePublished": "2026-03-20",
+          "dateModified": "2026-11-01"
+        },
+
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://meghrajparashar.github.io/#breadcrumb",
+          "name": "Portfolio Navigation",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://meghrajparashar.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About",
+              "item": "https://meghrajparashar.github.io/#about"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Experience",
+              "item": "https://meghrajparashar.github.io/#experience"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Projects",
+              "item": "https://meghrajparashar.github.io/#projects"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Contact",
+              "item": "https://meghrajparashar.github.io/#contact"
+            }
+          ]
+        },
+
+        {
+          "@type": "Person",
+          "@id": "https://meghrajparashar.github.io/#person",
+          "name": "Meghraj Parashar",
+          "givenName": "Meghraj",
+          "familyName": "Parashar",
+          "url": "https://meghrajparashar.github.io/",
+          "image": "https://meghrajparashar.github.io/og-image.png",
+          "email": "mailto:meghrajparashar@gmail.com",
+          "telephone": "+91-85959-88011",
+          "jobTitle": "Full Stack Web Developer",
+          "description": "Full Stack Web Developer specializing in production PHP & MERN stack applications with enterprise CMS architectures, automated Playwright E2E QA, and technical SEO. Currently shipping 30+ production pages at Logistics24x7 India Pvt Ltd.",
+
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "New Delhi",
+            "addressRegion": "Delhi",
+            "addressCountry": {
+              "@type": "Country",
+              "name": "IN"
+            }
+          },
+
+          "nationality": {
+            "@type": "Country",
+            "name": "India"
+          },
+
+          "sameAs": [
+            "https://github.com/MEGHRAJPARASHAR",
+            "https://linkedin.com/in/meghraj-parashar",
+            "https://meghrajparashar.github.io"
+          ],
+
+          "worksFor": {
+            "@id": "https://meghrajparashar.github.io/#org-logistics24x7"
+          },
+
+          "hasOccupation": [
+            {
+              "@type": "Occupation",
+              "name": "Web Developer Intern",
+              "occupationLocation": {
+                "@type": "City",
+                "name": "New Delhi"
+              },
+              "skills": "JavaScript, TypeScript, PHP, React.js, Node.js, Express.js, MongoDB, MySQL, Tailwind CSS, Playwright, Technical SEO, REST APIs, RBAC, PWA",
+              "estimatedSalary": {
+                "@type": "MonetaryAmountDistribution",
+                "currency": "INR",
+                "name": "Web Developer"
+              }
+            }
+          ],
+
+          "knowsAbout": [
+            "JavaScript (ES6+)",
+            "TypeScript",
+            "PHP",
+            "SQL",
+            "Python",
+            "HTML5",
+            "CSS3",
+            "React.js",
+            "Redux Toolkit",
+            "Tailwind CSS",
+            "Bootstrap 5",
+            "Vite",
+            "GSAP",
+            "Progressive Web Apps",
+            "Node.js",
+            "Express.js",
+            "REST API Design",
+            "MongoDB",
+            "MySQL",
+            "Firebase",
+            "CSRF Protection",
+            "Bcrypt",
+            "Argon2id",
+            "Content Security Policy",
+            "Role-Based Access Control",
+            "Playwright E2E Testing",
+            "Chrome DevTools Protocol",
+            "Schema.org JSON-LD",
+            "Technical SEO",
+            "Google Search Console",
+            "Git",
+            "GitHub",
+            "Postman",
+            "Linux",
+            "Hostinger"
+          ],
+
+          "alumniOf": [
+            {
+              "@type": "CollegeOrUniversity",
+              "name": "Maharshi Dayanand University (MDU)",
+              "department": "JB Knowledge Park",
+              "url": "https://mdu.ac.in",
+              "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "Haryana",
+                "addressCountry": "IN"
+              }
+            },
+            {
+              "@type": "EducationalOrganization",
+              "name": "Arth Institute (NIELIT-Affiliated)",
+              "alternateName": "The Institute of Commerce & Vocational Studies",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "New Delhi",
+                "addressCountry": "IN"
+              }
+            },
+            {
+              "@type": "CollegeOrUniversity",
+              "name": "Jamia Hamdard",
+              "url": "https://jamiahamdard.edu",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "New Delhi",
+                "addressCountry": "IN"
+              }
+            }
+          ],
+
+          "hasCredential": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "degree",
+              "name": "Bachelor of Computer Applications (BCA)",
+              "educationalLevel": "Undergraduate",
+              "recognizedBy": {
+                "@type": "CollegeOrUniversity",
+                "name": "Maharshi Dayanand University (MDU)"
+              },
+              "dateCreated": "2026",
+              "competencyRequired": "Computer Science, Software Development"
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "diploma",
+              "name": "Post Graduate Diploma in Software Engineering",
+              "educationalLevel": "PostGraduate Diploma",
+              "recognizedBy": {
+                "@type": "EducationalOrganization",
+                "name": "NIELIT"
+              },
+              "dateCreated": "2024"
+            }
+          ],
+
+          "mainEntityOfPage": { "@id": "https://meghrajparashar.github.io/#profilepage" }
+        },
+
+        {
+          "@type": "Organization",
+          "@id": "https://meghrajparashar.github.io/#org-logistics24x7",
+          "name": "Logistics24x7 India Pvt Ltd",
+          "url": "https://logistics24x7.com",
+          "description": "Freight forwarding and logistics company providing end-to-end supply chain solutions across international trade corridors.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Okhla Industrial Area",
+            "addressLocality": "New Delhi",
+            "addressRegion": "Delhi",
+            "addressCountry": "IN"
+          },
+          "industry": "Freight Forwarding & Logistics",
+          "employee": { "@id": "https://meghrajparashar.github.io/#person" }
+        },
+
+        {
+          "@type": "Organization",
+          "@id": "https://meghrajparashar.github.io/#org-arth",
+          "name": "Arth Institute",
+          "description": "Software engineering training institute in New Delhi, affiliated with NIELIT.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "New Delhi",
+            "addressCountry": "IN"
+          }
+        },
+
+        {
+          "@type": "CreativeWork",
+          "@id": "https://meghrajparashar.github.io/#project-attendtrack",
+          "name": "AttendTrack — Real-Time Employee Attendance & GPS Tracker",
+          "description": "Real-time workforce tracking PWA supporting Admin and Employee roles, featuring automated 2-minute background GPS sync, interactive live route visualization on Leaflet.js maps, RBAC via Firebase Auth secondary app instance pattern, 6 real-time Firestore dashboards, and 70% faster initial load via React lazy() code splitting.",
+          "url": "https://github.com/MEGHRAJPARASHAR/AttendTrack",
+          "author": { "@id": "https://meghrajparashar.github.io/#person" },
+          "dateCreated": "2026",
+          "programmingLanguage": ["JavaScript", "React.js"],
+          "runtimePlatform": "Web Browser",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Cross-platform (PWA)",
+          "keywords": "attendance tracking, GPS, PWA, Firebase, Leaflet.js, React.js, RBAC",
+          "softwareRequirements": "Modern web browser with geolocation support",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR",
+            "availability": "https://schema.org/InStock"
+          },
+          "isPartOf": { "@id": "https://meghrajparashar.github.io/#website" }
+        },
+
+        {
+          "@type": "CreativeWork",
+          "@id": "https://meghrajparashar.github.io/#project-biterush",
+          "name": "BiteRush — Full Stack Food Delivery Platform",
+          "description": "Production-grade full-stack food delivery platform with 3 user roles (Customer, Restaurant Owner, Delivery Partner), 30+ REST API endpoints across 8 route modules, Google OAuth 2.0 + JWT authentication, Razorpay payments with HMAC-SHA256 verification, and real-time order tracking via Socket.IO.",
+          "url": "https://bite-rush-delta.vercel.app/",
+          "author": { "@id": "https://meghrajparashar.github.io/#person" },
+          "dateCreated": "2026",
+          "programmingLanguage": ["JavaScript", "TypeScript", "React.js", "Node.js"],
+          "runtimePlatform": "Web Browser",
+          "applicationCategory": "FoodService",
+          "keywords": "food delivery, MERN stack, Razorpay, Socket.IO, OAuth, REST API",
+          "isPartOf": { "@id": "https://meghrajparashar.github.io/#website" }
+        }
+
+      ]
+    }
+    </script>
+
   </head>
   <body>
-    <div id="root"></div>
+    <!-- 
+      ════════════════════════════════════════════════════
+      Semantic Landmark: React SPA Mount Point
+      Accessible name provided for screen readers
+      ════════════════════════════════════════════════════ 
+    -->
+    <div id="root" role="application" aria-label="Meghraj Parashar — Portfolio"></div>
+
+    <!-- 
+      ════════════════════════════════════════════════════
+      Noscript Fallback — Critical for SEO crawlers that 
+      don't execute JavaScript (Yandex, some Bing passes)
+      ════════════════════════════════════════════════════ 
+    -->
+    <noscript>
+      <div style="padding:40px;max-width:600px;margin:0 auto;font-family:system-ui;color:#ccd6f6;background:#060a0f;min-height:100vh;">
+        <h1>Meghraj Parashar — Full Stack Web Developer</h1>
+        <p>Based in New Delhi, India. Currently working as Web Developer Intern at Logistics24x7 India Pvt Ltd.</p>
+        <p>Specializing in PHP, React.js, Node.js, Express.js, MongoDB, MySQL, Tailwind CSS, Playwright E2E QA, and enterprise technical SEO.</p>
+        <h2>Key Projects</h2>
+        <ul>
+          <li><strong>AttendTrack</strong> — Real-time GPS-based employee attendance PWA (React, Firebase, Leaflet.js)</li>
+          <li><strong>BiteRush</strong> — Full-stack food delivery platform with 3 roles, Razorpay, Socket.IO (MERN + TypeScript)</li>
+          <li><strong>Logistics24x7 & GKSCPL</strong> — 30+ production pages, Dual CMS Engine, RBAC auth (PHP, MySQL, Tailwind)</li>
+          <li><strong>WebTechPrime</strong> — IT services PWA with 7-module admin panel, inline editing (PHP, MySQL)</li>
+        </ul>
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:meghrajparashar@gmail.com">meghrajparashar@gmail.com</a></p>
+        <p>Phone: <a href="tel:+918595988011">+91 85959 88011</a></p>
+        <p>
+          <a href="https://github.com/MEGHRAJPARASHAR">GitHub</a> |
+          <a href="https://linkedin.com/in/meghraj-parashar">LinkedIn</a>
+        </p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
